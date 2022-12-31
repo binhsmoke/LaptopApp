@@ -116,15 +116,16 @@ export default Login;
 const styles = StyleSheet.create({
 
   iconContainer: {
-    height: "100%",
-    width: 35,
-    height: 40,
-    marginHorizontal: 20,
+    height: 60,
+    alignItems:'center',
+    justifyContent:'space-between'
+    
   },
   loginIconView: {
+    marginHorizontal:90,
     flexDirection: "row",
-    marginHorizontal: 100,
-    paddingTop: 100,
+    marginTop: 40,
+    justifyContent:'space-between'
   },
   logoView: {
     width: "100%",
@@ -135,8 +136,8 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: 200,
-    height: 260,
+    width: 300,
+    height: 300,
   },
   signInView: {
     width: "100%",
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
 
   inputTextView: {
     padding: 30,
+    marginTop:30
   },
 
   inputText: {

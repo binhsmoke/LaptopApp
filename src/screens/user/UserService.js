@@ -53,3 +53,11 @@ export const getPendingOrders = async (id) => {
     const response = await axiosInstance.get(`${constants.API_USER}/${id}/orders/pending/get`);
     return response;
 }
+
+export const getShippingOrders = async (id) => {
+    const response = await axiosInstance.get(`${constants.API_USER}/${id}/orders/shipping/get`);
+    return response;
+}
+
+
+

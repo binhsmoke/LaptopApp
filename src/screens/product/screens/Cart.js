@@ -1,13 +1,15 @@
-import { StyleSheet, Text, View, Image, Pressable, FlatList, Dimensions, Modal, ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable, FlatList, Dimensions, Modal, ToastAndroid, SafeAreaView, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { ProductContext } from '../ProductContext';
 import { UserContext } from '../../user/UserContext';
 import { SelectList } from 'react-native-dropdown-select-list'
+import { IP } from "../../../utils/constants";
 
 const CheckOutModal = (props) => {
   const { isShowModal, setIsShowModal, cart } = props;
   const { userID, onCheckOut } = useContext(UserContext);
+  const { resetCart } = useContext(ProductContext);
   // console.log('userid', userID)
   const data = [
     {
@@ -47,6 +49,7 @@ const CheckOutModal = (props) => {
       if (res.message) {
         ToastAndroid.show(res.message, ToastAndroid.BOTTOM);
         setIsShowModal(false);
+        resetCart()
       }
     }
   }
@@ -77,10 +80,12 @@ const CheckOutModal = (props) => {
             defaultOption={{ key: '0', value: 'Chọn phương thức thanh toán' }}
             onSelect={() => console.log(selected)}
           />
-          <Pressable style={styles.checkoutButton} onPress={handleCheckOut} >
+          <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckOut} >
             <Text style={styles.checkoutText}>Đồng ý</Text>
-          </Pressable>
-          <Text onPress={() => setIsShowModal(false)} style={styles.cancel}>Hủy bỏ</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{...styles.checkoutButton, backgroundColor:'#FFF', borderColor: '#FE5045', borderWidth:2}} onPress={() => setIsShowModal(false)}>
+          <Text  style={{...styles.checkoutText, color:'#FE5045'}}>Hủy bỏ</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -98,10 +103,12 @@ const DeleteModal = (props) => {
       <View style={styles.modalContainer}>
         <View style={styles.modalView}>
           <Text>Xác nhận xóa món hàng</Text>
-          <Pressable style={styles.deleteButton} onPress={resetCart}>
+          <TouchableOpacity style={styles.deleteButton} onPress={resetCart}>
             <Text style={styles.deleteText}>Đồng ý</Text>
-          </Pressable>
-          <Text onPress={() => setIsShowDeleteModal(false)} style={styles.cancel}>Hủy bỏ</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.deleteButton} onPress={() => setIsShowDeleteModal(false)}>
+          <Text  style={styles.cancel}>Hủy bỏ</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -110,6 +117,8 @@ const DeleteModal = (props) => {
 }
 
 const CartItem = (props) => {
+  const { cart } = props;
+  const { updateCart } = useContext(ProductContext);
   const numberWithComma = x => {
     try {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -117,9 +126,14 @@ const CartItem = (props) => {
       console.log(error);
     }
   };
-  const [refresh, setRefresh] = useState(false);
-  const { cart } = props;
-  const { updateCart } = useContext(ProductContext);
+  function convertIP(image) {
+    try {
+      image = image.replace("localhost", IP);
+      return image;
+    } catch (error) {
+      console.log('convertip fail', error)
+    }
+  }
   const renderItem = ({ item }) => {
     const { product, quantity, price, checked } = item;
     return (
@@ -134,7 +148,7 @@ const CartItem = (props) => {
 
         </View>
         <View style={styles.imagesContainer}>
-          <Image style={styles.images} resizeMode='cover' source={{ uri: product.image }} />
+          <Image style={styles.images} resizeMode='cover' source={{ uri: convertIP(product.image) }} />
         </View>
         <View style={styles.infoContainer}>
           <View>
@@ -153,20 +167,14 @@ const CartItem = (props) => {
 
       </View>)
   }
-  const reloadData = () => {
-    setRefresh = true;
-    setRefresh = false;
-  }
+
   return (
     <FlatList
       data={cart}
       renderItem={renderItem}
-      keyExtractor={item => Math.random()
-      }
+      keyExtractor={item => Math.random()}
       style={styles.flatlistContainer}
       showsVerticalScrollIndicator={false}
-      refreshing={refresh}
-      onRefresh={reloadData}
     />
   )
 }
@@ -201,6 +209,8 @@ const Cart = (props) => {
     }
   };
   return (
+    <>
+    <SafeAreaView/>
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Giỏ hàng</Text>
@@ -236,6 +246,7 @@ const Cart = (props) => {
       <CheckOutModal isShowModal={isShowModal} setIsShowModal={setIsShowModal} hi={isShowCheckout().total} cart={cart} />
       <DeleteModal isShowDeleteModal={isShowDeleteModal} setIsShowDeleteModal={setIsShowDeleteModal} resetCart={clearCart} />
     </View>
+    </>
   );
 };
 
@@ -288,6 +299,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  
   deleteText: {
     color: 'white',
     fontSize: 16
@@ -307,7 +319,7 @@ const styles = StyleSheet.create({
   checkoutContainer: {
     paddingHorizontal: 28,
     position: 'absolute',
-    bottom: 0,
+    bottom: 20,
     width: '100%',
   },
   totalContainer: {
@@ -389,7 +401,8 @@ const styles = StyleSheet.create({
   images: {
     width: '80%',
     height: '80%',
-
+    borderRadius: 16,
+    marginLeft:8
   },
   infoContainer: {
     marginLeft: 15,
@@ -400,7 +413,7 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
   title: {
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: '500',
     textTransform: 'uppercase'
   },
@@ -412,6 +425,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop: 32,
+    paddingTop:40
   }
 });

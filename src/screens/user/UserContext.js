@@ -1,6 +1,6 @@
 import React, { useState, createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { login, register, getUserById, getUser, checkOut, getAllOrders, getPendingOrders, } from './UserService'
+import { login, register, getUserById, getUser, checkOut, getAllOrders, getPendingOrders,getShippingOrders } from './UserService'
 import constants from "../../utils/constants";
 
 export const UserContext = createContext();
@@ -18,7 +18,6 @@ export const UserContextProvider = (props) => {
         setIsLogin(true);
         console.log('res', res)
         setUserID(res._id);
-        console.log('user id context>', userID)
       }
       return { result: res.status, message: res.message };
     } catch (error) {
@@ -88,10 +87,20 @@ export const UserContextProvider = (props) => {
     return false;
   }
 
+  const onGetShippingOrders = async (id) => {
+    try {
+        const res = await getShippingOrders(id);
+        return res;
+      } catch (error) {
+        console.log("onGetCart error: ", error);
+      }
+      return false;
+  }
+
   return (
     <UserContext.Provider
       value={{
-        onLogin, onRegister, onLogout, onGetUser, onGetUserById, isLogin, user, userID, onCheckOut, onGetAllOrders, onGetPendingOrders
+        onLogin, onRegister, onLogout, onGetUser, onGetUserById, isLogin, user, userID, onCheckOut, onGetAllOrders, onGetPendingOrders,onGetShippingOrders
       }}
     >
       {children}

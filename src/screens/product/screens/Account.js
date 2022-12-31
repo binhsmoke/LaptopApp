@@ -32,27 +32,12 @@ const Account = (props) => {
       // setImage(result.assets[0].uri);
     }
   };
-  // useEffect(() => {
-  //   // Since the async method Parse.User.currentAsync is needed to
-  //   // retrieve the current user data, you need to declare an async
-  //   // function here and call it afterwards
-  //   async function getCurrentUser() {
-  //     // This condition ensures that username is updated only if needed
-  //     if (name == '') {
-  //       const currentUser = await Parse.User.currentAsync();
-  //       if (currentUser !== null) {
-  //         setName(currentUser.getUsername());
-  //       }
-  //     }
-  //   }
-  //   getCurrentUser();
-  // }, [name]);
+
   useEffect(() => {
     async function fetchData() {
       // You can await here
       const response = await onGetUser.getData;
-      console.log('respone in account.js onGetUser.getdata', response)
-      // ...
+      // console.log('response in acc .js', response);
     }
     fetchData();
   }, []);
@@ -62,7 +47,7 @@ const Account = (props) => {
       <View style={styles.TitleView}>
         <View style={styles.Title}>
           <Image source={require("../../../assets/images/back.png")}></Image>
-          <Text style={styles.TitleText}>Account details</Text>
+          <Text style={styles.TitleText}>      TRANG CÁ NHÂN</Text>
           <Image source={require("../../../assets/images/bacham.png")}></Image>
         </View>
       </View>
@@ -77,7 +62,6 @@ const Account = (props) => {
                   style={styles.Imageavatar}
                   source={require("../../../assets/images/avataruser.png")}
                 />}
-
               </TouchableOpacity>
             </View>
             <View style={styles.TextView}>
@@ -85,58 +69,47 @@ const Account = (props) => {
               <Text>{user.phone}</Text>
             </View>
           </View>
-          <View style={styles.line}></View>
           <View style={styles.SupportView} >
-            <Text onPress={() => navigation.navigate('EditProfile')} style={styles.SupportText} >Edit Profile</Text>
-            <Image
-
-              style={styles.SupportImage}
-              source={require("../../../assets/images/next.png")}
-            ></Image>
-          </View>
-          <View style={styles.line}></View>
-          <View style={styles.SupportView}>
-            <Text style={styles.SupportText} onPress={() => navigation.navigate('DonHang')}>Orders</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+            <Text  style={styles.SupportText} >Chỉnh sửa thông tin</Text>
+            </TouchableOpacity>
             <Image
               style={styles.SupportImage}
               source={require("../../../assets/images/next.png")}
-            ></Image>
+              ></Image>
           </View>
           {/* <View style={styles.line}></View>
           <View style={styles.SupportView}>
-            <Text style={styles.SupportText}>About</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('DonHang')}>
+            <Text style={styles.SupportText}>Đơn hàng của tôi</Text>
+            </TouchableOpacity>
             <Image
               style={styles.SupportImage}
               source={require("../../../assets/images/next.png")}
-            ></Image>
-          </View>
-          <View style={styles.line}></View>
-          <View style={styles.SupportView}>
-            <Text style={styles.SupportText}>Language</Text>
-            <Image
-              style={styles.SupportImage}
-              source={require("../../../assets/images/next.png")}
-            ></Image>
-          </View>
-          <View style={styles.line}></View>
-          <View style={styles.SupportView}>
-            <Text style={styles.SupportText}>Security center</Text>
-            <Image
-              style={styles.SupportImage}
-              source={require("../../../assets/images/next.png")}
-            ></Image>
-          </View>
-          <View style={styles.line}></View>
-          <View style={styles.SupportView}>
-            <Text style={styles.SupportText}>Feedback</Text>
-            <Image
-              style={styles.SupportImage}
-              source={require("../../../assets/images/next.png")}
-            ></Image>
+              ></Image>
           </View> */}
-
           <View style={styles.line}></View>
-          <Pressable onPress={logout}><Text style={styles.SupportTextLogout}>Logout</Text></Pressable>
+          <View style={styles.SupportView}>
+          <TouchableOpacity onPress={() => navigation.navigate('Ordering')}>
+            <Text style={styles.SupportText}>Đơn hàng đang xử lý</Text>
+            </TouchableOpacity>
+            <Image
+              style={styles.SupportImage}
+              source={require("../../../assets/images/next.png")}
+              ></Image>
+          </View>
+          <View style={styles.line}></View>
+          <View style={styles.SupportView}>
+          <TouchableOpacity onPress={() => navigation.navigate('DonHang')}>
+            <Text style={styles.SupportText}>Lịch sử đặt hàng</Text>
+            </TouchableOpacity>
+            <Image
+              style={styles.SupportImage}
+              source={require("../../../assets/images/next.png")}
+              ></Image>
+          </View>
+          <View style={styles.line}></View>
+          <TouchableOpacity onPress={logout}><Text style={styles.SupportTextLogout}>Logout</Text></TouchableOpacity>
 
         </View>
       </View>
@@ -170,7 +143,7 @@ const styles = StyleSheet.create({
   },
   line: {
     width: "100%",
-    height: 50,
+    height: 20,
     // borderWidth: 0.5,
     // backgroundColor: "#C0C0C0",
     marginVertical: 8,
@@ -213,6 +186,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     fontWeight: "500",
+    textAlign: "center",
   },
   Title: {
     marginTop: 70,

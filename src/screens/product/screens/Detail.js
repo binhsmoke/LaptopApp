@@ -3,8 +3,6 @@ import {
   Text,
   View,
   Image,
-  TextInput,
-  FlatList,
   ScrollView,
   TouchableOpacity,
   Pressable,
@@ -13,14 +11,11 @@ import {
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import { ProductContext } from '../ProductContext'
-import { UserContext } from "../../user/UserContext";
-
+import { IP } from "../../../utils/constants";
 const Detail = (props) => {
 
   const { navigation, route: { params: { _id } } } = props;
   const { product, onGetProductById, updateCart } = useContext(ProductContext);
-  const { user } = useContext(UserContext);
-  const [cart, setCart] = useState([]);
   const [number, setNumber] = useState(0);
   const onNumberChange = (isAdd) => {
     if (isAdd == true) {
@@ -32,10 +27,7 @@ const Detail = (props) => {
 
   useEffect(() => {
     async function fetchData() {
-      // You can await here
       const response = await onGetProductById(_id);
-      // ...
-      console.log("onGetProductById ", response);
       return response;
     }
     fetchData();
@@ -43,7 +35,7 @@ const Detail = (props) => {
   if (!product) {
     return (<></>);
   }
-  const { name, images, price, size, madein, quantity } = product;
+  const { name, image, price, quantity,description } = product;
   const addProductToCart = () => {
     updateCart(product, number, price, true)
     ToastAndroid.show('Thêm vào giỏ hàng thành công', ToastAndroid.BOTTOM);
@@ -57,6 +49,15 @@ const Detail = (props) => {
     }
   };
 
+  function convertIP(image) {
+    try {
+      image = image.replace("localhost", IP);
+      return image;
+    } catch (error) {
+      console.log('convertip fail', error)
+    }
+  }
+  
   const [show, setShow] = useState(false);
   return (
     <SafeAreaView style={styles.Conatiner}>
@@ -64,7 +65,7 @@ const Detail = (props) => {
         <View style={styles.TitleView}>
           <View style={styles.Title}>
             <Image source={require("../../../assets/images/back.png")}></Image>
-            <Text style={styles.TitleText}>Product Information</Text>
+            <Text style={styles.TitleText}>     CHI TIẾT</Text>
             <Image
               source={require("../../../assets/images/bacham.png")}
             ></Image>
@@ -74,14 +75,15 @@ const Detail = (props) => {
           <View style={styles.ImageProduct}>
             <Image
               style={styles.Image}
-              source={{ uri: product.image }} resizeMode={'cover'}
-            ></Image>
+              resizeMode={'cover'}
+              source={{ uri: convertIP(image) }}
+            />
           </View>
         </View>
         <View style={styles.ContainerInformations}>
           <View style={styles.TextNameProductView}>
             <Text style={styles.TextNameProduct}>
-              {product.name}
+              {name}
             </Text>
             <Image
               style={styles.Star}
@@ -89,8 +91,8 @@ const Detail = (props) => {
             ></Image>
           </View>
           <View style={styles.PriceQuantityView}>
-            <Text style={styles.TextPriceProduct}>{numberWithComma(product.price)}đ</Text>
-            <Text style={styles.TextQuantityProduct}>Số lượng: {product.quantity}</Text>
+            <Text style={styles.TextPriceProduct}>{numberWithComma(price)}đ</Text>
+            <Text style={styles.TextQuantityProduct}>Số lượng: {quantity}</Text>
           </View>
           <View style={styles.line}></View>
           <View>
@@ -108,7 +110,7 @@ const Detail = (props) => {
             </Pressable>
             {show ? (
               <View style={styles.Description}>
-                <Text>{product.description}</Text>
+                <Text>{description}</Text>
 
               </View>
             ) : null}
@@ -270,6 +272,7 @@ const styles = StyleSheet.create({
   Image: {
     width: "100%",
     height: "100%",
+    borderRadius:16
   },
   ImageProduct: {
     width: "70%",

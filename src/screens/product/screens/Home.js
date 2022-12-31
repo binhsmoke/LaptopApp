@@ -9,21 +9,48 @@ import {
   TouchableOpacity,
   Pressable,
   SafeAreaView,
-  Button,
+  RefreshControl
 } from "react-native";
+import { IP } from "../../../utils/constants";
 import React, { useState, useContext, useEffect } from "react";
 import { ProductContext } from "../ProductContext";
-import { NumericFormat, PatternFormat, NumberFormat } from 'react-number-format';
 const Home = (props) => {
   const { navigation } = props;
   const { products, onGetProducts } = useContext(ProductContext);
   const [sort, setSort] = useState('asc')
+  const [productsLoaded, setProductsLoaded] = useState(false);
+  //refresh
+  const [refreshing, setRefreshing] = React.useState(false);
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(1000).then(() => {
+    setRefreshing(false)
+    setProductsLoaded(false)
+  })
+  }, []);
+
+  //format number
   const numberWithComma = x => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
-  useEffect(async () => {
-    await onGetProducts(sort);
-  }, []);
+
+  //get img local
+  function convertIP(image) {
+    image = image.replace("localhost", IP);
+    return image;
+  }
+
+  //first time load data
+  useEffect(() => {
+    async function fetchData() {
+      const response = await onGetProducts(sort);
+        setProductsLoaded(true)      
+    }
+    fetchData();
+  }, [productsLoaded]);
 
   const handleSort = async () => {
     if (sort === 'asc') {
@@ -35,39 +62,10 @@ const Home = (props) => {
     }
   }
 
-
-  const renderItem = ({ item }) => {
-    const { _id, image, name, price } = item;
-    // let nPrice=new Intl.NumberFormat('en-CA',{style:'decimal'}).format(price);
+  const header = ()=>{
     return (
-      <Pressable
-        style={styles.containerView}
-        onPress={() => navigation.navigate("Detail", { _id: _id })}
-      >
-        <View style={styles.ContainerItem}>
-          <View style={styles.Product}>
-            <View style={styles.ContainerImageItem}>
-              <Image
-                style={styles.imageItem}
-                resizeMode={"cover"}
-                source={{ uri: image }}
-              ></Image>
-            </View>
-            <View style={styles.textItem}>
-              <Text style={styles.descriptionProduct}>{name}</Text>
-
-              <Text style={styles.priceproduct}>{numberWithComma(price)} đ</Text>
-            </View>
-          </View>
-        </View>
-      </Pressable>
-    );
-  };
-
-  return (
-    <SafeAreaView style={styles.Container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.ContainerTitle}>
+      <>
+          <View style={styles.ContainerTitle}>
           <View style={styles.Title}>
             <Text style={styles.TitleText}>LapTop Shop</Text>
             <Image
@@ -126,17 +124,60 @@ const Home = (props) => {
         <TouchableOpacity
           style={styles.button}
           onPress={handleSort}>
-          <Text>{sort == 'asc' ? 'Giảm dần' : 'Tăng dần'}</Text>
+          <Text style={{fontWeight : "600", fontSize:16, marginVertical:8, color:'#F8774A'}}>{sort == 'asc' ? 'Giảm dần' : 'Tăng dần'}</Text>
         </TouchableOpacity>
+      </>
+    )
+  }
+
+  const renderItem = ({ item }) => {
+    const { _id, image, name, price } = item;
+    // let nPrice=new Intl.NumberFormat('en-CA',{style:'decimal'}).format(price);
+    return (
+      <>
+      <SafeAreaView/>
+      <Pressable
+        style={styles.containerView}
+        onPress={() => navigation.navigate("Detail", { _id: _id })}
+      >
+        <View style={styles.ContainerItem}>
+          <View style={styles.Product}>
+            <View style={styles.ContainerImageItem}>
+              <Image
+                style={styles.imageItem}
+                resizeMode={"cover"}
+                source={{ uri: convertIP(image) }}
+              />
+            </View>
+            <View style={styles.textItem}>
+              <Text style={styles.descriptionProduct} numberOfLines={2}>{name}</Text>
+              <Text style={styles.priceproduct}>{numberWithComma(price)} đ</Text>
+            </View>
+          </View>
+        </View>
+      </Pressable>
+      </>
+    );
+  };
+
+  return (
+    <SafeAreaView style={styles.Container}>
+      <View>
         <FlatList
+          ListHeaderComponent={header}
           style={styles.flatList}
           data={products}
           numColumns={2}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => Math.random()}
-        ></FlatList>
-      </ScrollView>
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -145,8 +186,12 @@ export default Home;
 
 const styles = StyleSheet.create({
   button: {
-    width: '95%',
-    alignItems: 'flex-end'
+    alignSelf:"flex-end",
+    backgroundColor:'#fff',
+    width: 100,
+    alignItems:'center',
+    borderRadius:10,
+    marginVertical:6,
   },
   priceproduct: {
     color: "red",
@@ -162,10 +207,10 @@ const styles = StyleSheet.create({
   textItem: {
     paddingHorizontal: 8,
     width: "100%",
-    marginBottom: 8,
+    marginBottom: 15,
   },
   imageItem: {
-    width: "100%",
+    width: "90%",
     height: "80%",
     borderRadius: 16,
   },
@@ -177,7 +222,7 @@ const styles = StyleSheet.create({
   },
   Product: {
     width: "100%",
-    marginTop: 8,
+    marginTop: 20,
     backgroundColor: "white",
     borderRadius: 16,
   },
@@ -249,7 +294,7 @@ const styles = StyleSheet.create({
   },
 
   ContainerTitle: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 0,
   },
   Container: {
     flex: 1,

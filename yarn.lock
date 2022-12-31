@@ -1774,6 +1774,14 @@
   dependencies:
     "@react-navigation/elements" "^1.3.12"
 
+"@react-navigation/material-top-tabs@^6.5.1":
+  version "6.5.1"
+  resolved "https://registry.yarnpkg.com/@react-navigation/material-top-tabs/-/material-top-tabs-6.5.1.tgz#45fb467d3397bde6cfe72409159dd5a56ea85f07"
+  integrity sha512-zw+S8uORb7gPkNQioveAmcmu/QDj2ab1HXHBx9Hdf7HKm9dDXZSbdzF5kwAvBeqaTWmV6nI0hJePWaiQBvyBVA==
+  dependencies:
+    color "^4.2.3"
+    warn-once "^0.1.0"
+
 "@react-navigation/native-stack@^6.7.0":
   version "6.9.7"
   resolved "https://registry.yarnpkg.com/@react-navigation/native-stack/-/native-stack-6.9.7.tgz#9211fc8933825a41f19011b935133a6ed58b4ce1"
@@ -5590,6 +5598,11 @@ react-native-iphone-x-helper@^1.3.1:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
 
+react-native-pager-view@5.4.24:
+  version "5.4.24"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.24.tgz#8626e757ddc55e41eca66d2f8a8a75aec54591ee"
+  integrity sha512-dRMB7i3B+mu4NCeIN6gqbR/kC/rr2wzqO0gisXDdJwJr78G24sWoTNpLEDFo3G8TFHY9nTMutVl5CUvkN2dp6g==
+
 react-native-paper@^4.12.4:
   version "4.12.5"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.12.5.tgz#5ea4bbe02d416d17802a199de748700358c11d3a"
@@ -5630,6 +5643,13 @@ react-native-search-api@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-search-api/-/react-native-search-api-1.2.0.tgz#824b49e1f9a40aa36ef81b95c528dc29d4b88454"
   integrity sha512-RMtJVwt31uThP3ktVNweNQd8GaOBTAWIFaJHeyWuNn/DKf5/6E24KgYwJvq+1pLx/YupNtb3Pf/c2Xpv9cKT+g==
+
+react-native-tab-view@^3.3.4:
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.3.4.tgz#856d4527f3bbf05e2649302ec80abe9f2f004666"
+  integrity sha512-rceAYWpHa6knA7tsTnnjlcOxlCErR4F+yXQPpNm125IvYFyv09YRhE5uMU2IzyPIQ1CJvADCHurF3KySzVI+4Q==
+  dependencies:
+    use-latest-callback "^0.1.5"
 
 react-native-vector-icons@^9.2.0:
   version "9.2.0"
