@@ -17,21 +17,18 @@ const List = (props) => {
   const { navigation } = props;
   // const [showFilterModal, setShowFilterModal]= React.useState(false);
   const {products,onGetProducts}=useContext(ProductContext);
-  // useEffect(async () => {
-  //   await onGetProducts();
-  //   return () => {};
-  // }, []);
+
   useEffect(() => {
     async function fetchData() {
       // You can await here
       const response = await onGetProducts.getData;
-      // ...
+      // console.log('response in list .js', response);
     }
     fetchData();
   }, []);
   const renderItem = ({ item }) => {
     const { _id, image, name, price } = item;
-    console.log(item)
+    // console.log(item)
     return (
       <Pressable style={styles.containerView} onPress={() => navigation.navigate('Detail',{_id:_id})}  key={_id}>
         <View style={styles.ContainerItem}>

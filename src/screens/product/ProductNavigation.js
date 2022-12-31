@@ -18,10 +18,10 @@ const ProductNavigation = () => {
         headerShown: false,
         tabBarActiveTintColor: "#F8774A",
       }}
-      initialRouteName="Home"
+      initialRouteName="Hometab"
     >
       <Tab.Screen
-        name="Home"
+        name="Hometab"
         component={HomeStack}
         options={{
           tabBarLabel: "Home",
