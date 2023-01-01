@@ -151,7 +151,6 @@ const Ordering = (props) => {
     <>
     <View style={{marginTop:30}}/>
     <TabView
-    //  sceneContainerStyle={{backgroundColor:'red'}}
       navigationState={{ index, routes, navigation }}
       renderScene={renderScene}
       onIndexChange={setIndex}
