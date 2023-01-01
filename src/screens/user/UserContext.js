@@ -1,6 +1,6 @@
 import React, { useState, createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { login, register, getUserById, getUser, checkOut, getAllOrders, getPendingOrders,getShippingOrders } from './UserService'
+import { login, register, getUserById, getUser, checkOut, getAllOrders, getPendingOrders,getShippingOrders, getOneOrder, receiveOrder, cancelOrder, getSuccessOrders, getCancelOrders } from './UserService'
 import constants from "../../utils/constants";
 
 export const UserContext = createContext();
@@ -97,10 +97,60 @@ export const UserContextProvider = (props) => {
       return false;
   }
 
+  const onGetOneOrder = async (id, ido) => {
+    try {
+        const res = await getOneOrder(id, ido);
+        return res;
+      } catch (error) {
+        console.log("onGetCart error: ", error);
+      }
+      return false;
+  }
+  const onCancelOrder = async (id, ido) => {
+    try {
+        const res = await cancelOrder(id, ido);
+        return res;
+      } catch (error) {
+        console.log("onGetCart error: ", error);
+      }
+      return false;
+  }
+  const onReceiveOrder = async (id, ido) => {
+    try {
+        const res = await receiveOrder(id, ido);
+        return res;
+      } catch (error) {
+        console.log("onGetCart error: ", error);
+      }
+      return false;
+  }
+
+  const onGetSuccessOrders = async (id) => {
+    try {
+        const res = await getSuccessOrders(id);
+        return res;
+      } catch (error) {
+        console.log("onGetCart error: ", error);
+      }
+      return false;
+  }
+
+  const onGetCancelOrders = async (id) => {
+    try {
+        const res = await getCancelOrders(id);
+        return res;
+      } catch (error) {
+        console.log("onGetCart error: ", error);
+      }
+      return false;
+  }
+
   return (
     <UserContext.Provider
       value={{
-        onLogin, onRegister, onLogout, onGetUser, onGetUserById, isLogin, user, userID, onCheckOut, onGetAllOrders, onGetPendingOrders,onGetShippingOrders
+        onLogin, onRegister, onLogout, onGetUser, onGetUserById, isLogin, user, 
+        userID, onCheckOut, onGetAllOrders, onGetPendingOrders,onGetShippingOrders,
+        onGetOneOrder,onCancelOrder,onReceiveOrder,onGetSuccessOrders,onGetCancelOrders
       }}
     >
       {children}

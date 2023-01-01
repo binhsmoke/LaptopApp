@@ -14,7 +14,7 @@ import { ProductContext } from '../ProductContext'
 import { IP } from "../../../utils/constants";
 const Detail = (props) => {
 
-  const { navigation, route: { params: { _id } } } = props;
+  const { route: { params: { _id } } } = props;
   const { product, onGetProductById, updateCart } = useContext(ProductContext);
   const [number, setNumber] = useState(0);
   const onNumberChange = (isAdd) => {
@@ -65,7 +65,7 @@ const Detail = (props) => {
         <View style={styles.TitleView}>
           <View style={styles.Title}>
             <Image source={require("../../../assets/images/back.png")}></Image>
-            <Text style={styles.TitleText}>     CHI TIẾT</Text>
+            <Text style={styles.TitleText}>       CHI TIẾT</Text>
             <Image
               source={require("../../../assets/images/bacham.png")}
             ></Image>
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   TitleView: {
-    height: 150,
+    height: 120,
     backgroundColor: "#FE5045",
     width: "100%",
     borderBottomLeftRadius: 32,

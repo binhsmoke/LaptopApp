@@ -210,12 +210,15 @@ const Cart = (props) => {
   };
   return (
     <>
-    <SafeAreaView/>
     <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Giỏ hàng</Text>
-        <FontAwesome onPress={() => setIsShowDeleteModal(true)} style={styles.trash} name="trash-o" size={24} color="black" />
-      </View>
+    <View style={styles.TitleView}>
+          <View style={styles.Title}>
+            <Image source={require("../../../assets/images/back.png")}></Image>
+            <Text style={styles.TitleText}>GIỎ HÀNG</Text>
+        <FontAwesome onPress={() => setIsShowDeleteModal(true)} name="trash-o" size={24} color="white" />
+          
+          </View>
+        </View>
       <View>
         {
           cart.length == 0 ?
@@ -425,6 +428,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop:40
-  }
+  },
+  TitleText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500",
+  },
+  Title: {
+    marginTop: 60,
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  TitleView: {
+    height: 120,
+    backgroundColor: "#FE5045",
+    width: "100%",
+    borderBottomLeftRadius: 32,
+    borderBottomRightRadius: 32,
+    paddingHorizontal: 16,
+  },
+  Conatiner: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
 });

@@ -90,7 +90,7 @@ const Account = (props) => {
           </View> */}
           <View style={styles.line}></View>
           <View style={styles.SupportView}>
-          <TouchableOpacity onPress={() => navigation.navigate('Ordering')}>
+          <TouchableOpacity onPress={() => navigation.navigate('OrderStack')}>
             <Text style={styles.SupportText}>Đơn hàng đang xử lý</Text>
             </TouchableOpacity>
             <Image
@@ -100,7 +100,7 @@ const Account = (props) => {
           </View>
           <View style={styles.line}></View>
           <View style={styles.SupportView}>
-          <TouchableOpacity onPress={() => navigation.navigate('DonHang')}>
+          <TouchableOpacity onPress={() => navigation.navigate('PurchasedStack')}>
             <Text style={styles.SupportText}>Lịch sử đặt hàng</Text>
             </TouchableOpacity>
             <Image
@@ -175,11 +175,11 @@ const styles = StyleSheet.create({
   Account: {
     backgroundColor: "white",
     width: "100%",
-    height: "100%",
+    height: "80%",
     paddingHorizontal: 16,
   },
   AccountView: {
-    top: -60,
+    top: 10,
     paddingHorizontal: 16,
   },
   TitleText: {
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   Title: {
-    marginTop: 70,
+    marginTop: 60,
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   TitleView: {
-    height: 200,
+    height: 120,
     backgroundColor: "#FE5045",
     width: "100%",
     borderBottomLeftRadius: 32,
@@ -205,7 +205,5 @@ const styles = StyleSheet.create({
   },
   Container: {
     flex: 1,
-    width: "100%",
-    height: "100%",
   },
 });

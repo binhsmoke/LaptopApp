@@ -2,15 +2,15 @@ import { StyleSheet, FlatList, Text, View, TouchableOpacity, useWindowDimensions
 import React, {useState, useEffect, useContext} from 'react'
 import { UserContext } from "../../user/UserContext";
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-
-export const OrderingRoute = (props) => {
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+export const SuccessRoute = (props) => {
   const {navigation} = props;
-  const { userID, onGetPendingOrders } = useContext(UserContext);
+  const { userID, onGetSuccessOrders } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    (async function PendingOrders () {
-      const res1 = await onGetPendingOrders(userID);
+    (async function SuccessOrders () {
+      const res1 = await onGetSuccessOrders(userID);
         if(res1){
           setOrders(res1);
         }
@@ -34,20 +34,21 @@ const numberWithComma = x => {
 
   const renderItem1 = ({item}) => {
     return (
-      <View style={styles.item}>
+      <View style={{...styles.item, borderColor:'green'}}>
         <View>
           <View style={{flexDirection: 'row'}}>
-            <Text style={{color: 'blue'}}>{item.status.name}</Text>
+            <Text style={{color: 'green'}}>{item.status.name}</Text>
+            <FontAwesome name="check" size={24} color="green" style={{marginLeft:16}}/>
           </View>
           <Text style={{marginTop: 10}}><Text style={{fontWeight:'600'}}>Thời gian : </Text>{SetTime(convertTZ(item.createdAt),"Asia/Jakarta" )}</Text>
           <Text style={{marginTop: 10}}><Text style={{fontWeight:'600'}}>Cập nhật lúc : </Text>{SetTime(convertTZ(item.updatedAt),"Asia/Jakarta" )}</Text>
           <View style={{flexDirection: 'row', marginTop: 10}}>
-            <Text style={{fontWeight:'600'}}>$ <Text style={{fontWeight:'600', color:'#FE5045'}}>{numberWithComma(item.total)} đ</Text></Text>
+            <Text style={{fontWeight:'600'}}>$ <Text style={{fontWeight:'600'}}>{numberWithComma(item.total)} đ</Text></Text>
             <Text style={{marginLeft: 10}}>({item.payment_id == 1 ? 'Tiền mặt' : 'Ví điện tử'})</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.btnChiTiet} onPress={()=>navigation.navigate("OrderDetail", { id: item._id})}>
-          <Text style={{color: '#FE5045'}}>Chi tiết</Text>
+        <TouchableOpacity style={{...styles.btnChiTiet, borderColor:'green'}} onPress={()=>navigation.navigate("OrderDetail", { id: item._id})}>
+          <Text style={{color: 'green'}}>Chi tiết</Text>
         </TouchableOpacity>
       </View>
     );
@@ -66,7 +67,7 @@ const numberWithComma = x => {
               keyExtractor={item => item._id}
             /> :
             <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 200}}>
-              <Image style={{width: 150, height: 150, resizeMode:'contain'}} source={{uri: 'https://cdn-icons-png.flaticon.com/512/1548/1548682.png'}}/>
+              <Image style={{width: 150, height: 150, resizeMode:'contain'}} source={{uri: 'https://cdn-icons-png.flaticon.com/512/4814/4814852.png'}}/>
               <Text>Bạn chưa có đơn hàng nào</Text>
               <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
                 <Text style={{color: '#FE5045'}}>Đặt ngay</Text>
@@ -79,14 +80,14 @@ const numberWithComma = x => {
   )
 };
 
-export const ShippingRoute = (props) => {
+export const CancelRoute = (props) => {
   const {navigation} = props;
-  const { userID, onGetShippingOrders } = useContext(UserContext);
+  const { userID, onGetCancelOrders } = useContext(UserContext);
   const [orders1, setOrders1] = useState([]);
 
   useEffect(() => {
-    (async function PendingOrders1 () {
-      const res1 = await onGetShippingOrders(userID);
+    (async function CancelOrders () {
+      const res1 = await onGetCancelOrders(userID);
         if(res1){
           setOrders1(res1);
         }
@@ -108,22 +109,23 @@ export const ShippingRoute = (props) => {
   };
   const renderItem2 = ({item}) => {
     return (
-      <View style={{...styles.item, backgroundColor:'#FE5045'}}>
-        <View>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{color: '#FFF', fontWeight:'600'}}>{item.status.name}</Text>
-          </View>
-          <Text style={{marginTop: 10}}><Text style={{fontWeight:'600'}}>Thời gian : </Text>{SetTime(convertTZ(item.createdAt),"Asia/Jakarta" )}</Text>
-          <Text style={{marginTop: 10}}><Text style={{fontWeight:'600'}}>Cập nhật lúc : </Text>{SetTime(convertTZ(item.updatedAt),"Asia/Jakarta" )}</Text>
-          <View style={{flexDirection: 'row', marginTop: 10}}>
-            <Text style={{fontWeight:'600'}}>$ <Text style={{fontWeight:'600', color:'#FFF'}}>{numberWithComma(item.total)} đ</Text></Text>
-            <Text style={{marginLeft: 10}}>({item.payment_id == 1 ? 'Tiền mặt' : 'Ví điện tử'})</Text>
-          </View>
+      <View style={{...styles.item, borderColor:'red'}}>
+      <View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{color: 'red'}}>{item.status.name}</Text>
+          <FontAwesome name="ban" size={24} color="red" style={{marginLeft:16}}/>
         </View>
-        <TouchableOpacity style={styles.btnChiTiet2} onPress={()=>navigation.navigate("OrderDetail", { id: item._id})}>
-          <Text style={{color: '#FE5045'}}>Chi tiết</Text>
-        </TouchableOpacity>
+        <Text style={{marginTop: 10}}><Text style={{fontWeight:'600'}}>Thời gian : </Text>{SetTime(convertTZ(item.createdAt),"Asia/Jakarta" )}</Text>
+        <Text style={{marginTop: 10}}><Text style={{fontWeight:'600'}}>Cập nhật lúc : </Text>{SetTime(convertTZ(item.updatedAt),"Asia/Jakarta" )}</Text>
+        <View style={{flexDirection: 'row', marginTop: 10}}>
+          <Text style={{fontWeight:'600'}}>$ <Text style={{fontWeight:'600', textDecorationLine:'line-through'}}>{numberWithComma(item.total)} đ</Text></Text>
+          <Text style={{marginLeft: 10}}>({item.payment_id == 1 ? 'Tiền mặt' : 'Ví điện tử'})</Text>
+        </View>
       </View>
+      <TouchableOpacity style={{...styles.btnChiTiet, borderColor:'red'}} onPress={()=>navigation.navigate("OrderDetail", { id: item._id})}>
+        <Text style={{color: 'red'}}>Chi tiết</Text>
+      </TouchableOpacity>
+    </View>
     );
   };
   
@@ -140,7 +142,7 @@ export const ShippingRoute = (props) => {
               keyExtractor={item => item._id}
             /> :
             <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 200}}>
-              <Image style={{width: 150, height: 150, resizeMode:'contain'}} source={{uri: 'https://cdn-icons-png.flaticon.com/512/1548/1548682.png'}}/>
+              <Image style={{width: 150, height: 150, resizeMode:'contain'}} source={{uri: 'https://cdn-icons-png.flaticon.com/512/4814/4814852.png'}}/>
               <Text>Bạn chưa có đơn hàng nào</Text>
               <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
                 <Text style={{color: '#FE5045'}}>Đặt ngay</Text>
@@ -154,25 +156,24 @@ export const ShippingRoute = (props) => {
 };
 
 
-const Ordering = (props) => {
+const Purchased = (props) => {
   const {navigation} = props;
   const layout = useWindowDimensions();
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'ordering', title: 'Đang chờ giao hàng' },
-    { key: 'shipping', title: 'Đang giao hàng' },
+    { key: 'success', title: 'Đã giao hàng' },
+    { key: 'canceled', title: 'Đã hủy' },
   ]);
   
   const renderScene = SceneMap({
-    ordering: () => OrderingRoute({navigation}),
-    shipping: () => ShippingRoute({navigation}),
+    success: () => SuccessRoute({navigation}),
+    canceled: () => CancelRoute({navigation}),
   });
 
   return (
     <>
     <View style={{marginTop:30}}/>
     <TabView
-    //  sceneContainerStyle={{backgroundColor:'red'}}
       navigationState={{ index, routes, navigation }}
       renderScene={renderScene}
       onIndexChange={setIndex}
@@ -193,7 +194,7 @@ const Ordering = (props) => {
   )
 }
 
-export default Ordering
+export default Purchased
 
 const styles = StyleSheet.create({
   container: {
@@ -234,7 +235,8 @@ const styles = StyleSheet.create({
     padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    borderWidth: 1,
   },
   touch: {
     flexDirection: 'row',
@@ -245,7 +247,6 @@ const styles = StyleSheet.create({
     padding:6, 
     borderRadius: 10,
     borderWidth:2,
-    borderColor: "#FE5045",
     marginLeft:14,
     position: "absolute",
     top: 20,

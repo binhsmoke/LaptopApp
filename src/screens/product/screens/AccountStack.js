@@ -5,16 +5,16 @@ const Stack = createNativeStackNavigator();
 
 import Account from "./Account";
 import EditProfile from "./EditProfile";
-import DonHang from "./DonHang";
-import Ordering from "./Ordering";
+import OrderStack from "./OrderStack";
+import PurchasedStack from "./PurchasedStack";
 
 const AccountStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Account" component={Account} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
-      <Stack.Screen name="DonHang" component={DonHang} />
-      <Stack.Screen name="Ordering" component={Ordering} />
+      <Stack.Screen name="OrderStack" component={OrderStack} />
+      <Stack.Screen name="PurchasedStack" component={PurchasedStack} />
 
     </Stack.Navigator>
   )

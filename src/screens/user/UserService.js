@@ -59,5 +59,28 @@ export const getShippingOrders = async (id) => {
     return response;
 }
 
+export const getOneOrder = async (id, ido) => {
+    const response = await axiosInstance.get(`${constants.API_USER}/${id}/orders/${ido}`);
+    return response;
+}
+
+export const cancelOrder = async (id, ido) => {
+    const response = await axiosInstance.post(`${constants.API_USER}/${id}/orders/${ido}/cancel`);
+    return response;
+}
+
+export const receiveOrder = async (id, ido) => {
+    const response = await axiosInstance.post(`${constants.API_USER}/${id}/orders/${ido}/receive`);
+    return response;
+}
+
+export const getSuccessOrders = async (id) => {
+    const response = await axiosInstance.get(`${constants.API_USER}/${id}/orders/taken/get`);
+    return response;
+}
+export const getCancelOrders = async (id) => {
+    const response = await axiosInstance.get(`${constants.API_USER}/${id}/orders/cancel/get`);
+    return response;
+}
 
 

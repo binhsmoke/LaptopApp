@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   Pressable,
   SafeAreaView,
-  RefreshControl
+  RefreshControl,
+  StatusBar
 } from "react-native";
 import { IP } from "../../../utils/constants";
 import React, { useState, useContext, useEffect } from "react";
@@ -135,7 +136,6 @@ const Home = (props) => {
     // let nPrice=new Intl.NumberFormat('en-CA',{style:'decimal'}).format(price);
     return (
       <>
-      <SafeAreaView/>
       <Pressable
         style={styles.containerView}
         onPress={() => navigation.navigate("Detail", { _id: _id })}
@@ -298,9 +298,8 @@ const styles = StyleSheet.create({
   },
   Container: {
     flex: 1,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#F8774A",
+    backgroundColor: "#FE5045",
+    marginTop: StatusBar.currentHeight
   },
 });
 

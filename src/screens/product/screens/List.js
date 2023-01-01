@@ -60,30 +60,14 @@ const List = (props) => {
       <View style={styles.TitleView}>
         <View style={styles.Title}>
           <Image source={require("../../../assets/images/back.png")}></Image>
-          <Text style={styles.TitleText}>Products</Text>
+          <Text style={styles.TitleText}>         DANH SÁCH</Text>
           <Image source={require("../../../assets/images/bacham.png")}></Image>
         </View>
-        <View style={styles.Search}>
-          {/* <Image
-            style={styles.ImageSeach}
-            source={require("../../../assets/images/search.png")}
-          ></Image> */}
-          {/* <TextInput
-            style={styles.TextSearch}
-            placeholderTextColor={"#9098B1"}
-            placeholder="Search for products..."
-            onChangeText={(text) => {
-              setInput(text);
-            }}
-            value={input}
-          ></TextInput> */}
+          </View>
           <Searchbar style={styles.TextSearch}
 				placeholder="Search"
-				
 				value={input}
 			/>
-        </View>
-      </View>
       {/* <FilterModal 
       onVisible={showFilterModal}
       onClose={()=>setShowFilterModal(false)}
@@ -149,10 +133,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   TextSearch: {
-    width: "100%",
+    width: "90%",
     paddingHorizontal: 16,
     fontSize: 16,
     fontWeight: "400",
+    alignSelf:'center',
+    marginVertical: 16,
   },
   Search: {
     flexDirection: "row",
@@ -177,7 +163,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   TitleView: {
-    height: 180,
+    height: 120,
     backgroundColor: "#FE5045",
     width: "100%",
     borderBottomLeftRadius: 32,
@@ -190,37 +176,3 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 });
-
-
-// var data = [
-//   {
-//     _id: "1",
-//     image: require("../../../assets/images/maydell.jpg"),
-//     name: "Nike Air Zoom Pegasus 36 Miami",
-//     price: 534.33,
-//   },
-//   {
-//     _id: "2",
-//     image: require("../../../assets/images/maydell.jpg"),
-//     name: "Nike Air Zoom Pegasus 36 Miami",
-//     price: 534.33,
-//   },
-//   {
-//     _id: "3",
-//     image: require("../../../assets/images/maydell.jpg"),
-//     name: "Nike Air Zoom Pegasus 36 Miami",
-//     price: 534.33,
-//   },
-//   {
-//     _id: "4",
-//     image: require("../../../assets/images/maydell.jpg"),
-//     name: "Nike Air Zoom Pegasus 36 Miami",
-//     price: 534.33,
-//   },
-//   {
-//     _id: "5",
-//     image: require("../../../assets/images/maydell.jpg"),
-//     name: "Nike Air Zoom Pegasus 36 Miami",
-//     price: 534.33,
-//   },
-// ];
