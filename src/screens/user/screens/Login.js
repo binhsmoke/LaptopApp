@@ -72,9 +72,12 @@ const Login = (props) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.forgotView}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('FogotPassword')}
+        style={styles.forgotView}
+      >
         <Text style={styles.forgotText}>Forgot Password ?</Text>
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.loginIconView}>
         <View style={styles.iconContainer}>
@@ -117,15 +120,15 @@ const styles = StyleSheet.create({
 
   iconContainer: {
     height: 60,
-    alignItems:'center',
-    justifyContent:'space-between'
-    
+    alignItems: 'center',
+    justifyContent: 'space-between'
+
   },
   loginIconView: {
-    marginHorizontal:90,
+    marginHorizontal: 90,
     flexDirection: "row",
     marginTop: 40,
-    justifyContent:'space-between'
+    justifyContent: 'space-between'
   },
   logoView: {
     width: "100%",
@@ -167,7 +170,7 @@ const styles = StyleSheet.create({
 
   inputTextView: {
     padding: 30,
-    marginTop:30
+    marginTop: 30
   },
 
   inputText: {

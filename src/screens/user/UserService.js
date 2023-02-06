@@ -83,4 +83,13 @@ export const getCancelOrders = async (id) => {
     return response;
 }
 
+export const sendEmailForgotPassword = async (email) => {
+    const res = await axiosInstance.post('api/sendMailForgotPassword', { email })
+    return res
+}
+
+export const verifyOtp = async (data) => {
+    const res = await axiosInstance.post('api/verifyOtp', data)
+    return res
+}
 
