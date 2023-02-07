@@ -27,11 +27,12 @@ const Register = (props) => {
   const register = async () => {
 
     if (!username || !password || username.trim().length == 0 || password.trim().length == 0 ||
-      !confirmPassword || confirmPassword.trim().length == 0) {
+      !confirmPassword || confirmPassword.trim().length == 0 ||
+      !address || address.trim().length == 0 || !email || email.trim().length ==0) {
       ToastAndroid.show('Bạn chưa nhập đầy đủ thông tin', ToastAndroid.BOTTOM);
       return;
-    } else if (password.length < 2) {
-      ToastAndroid.show('Mật khẩu phải có ít nhất 2 ký tự', ToastAndroid.BOTTOM);
+    } else if (password.length < 4) {
+      ToastAndroid.show('Mật khẩu phải có ít nhất 4 ký tự', ToastAndroid.BOTTOM);
       return;
     } else if (password != confirmPassword) {
       ToastAndroid.show('Mật khẩu không trùng khớp', ToastAndroid.BOTTOM);

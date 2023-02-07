@@ -35,7 +35,7 @@ const Detail = (props) => {
   if (!product) {
     return (<></>);
   }
-  const { name, image, price, quantity,description } = product;
+  const { name, image, price, quantity, description } = product;
   const addProductToCart = () => {
     updateCart(product, number, price, true)
     ToastAndroid.show('Thêm vào giỏ hàng thành công', ToastAndroid.BOTTOM);
@@ -57,7 +57,7 @@ const Detail = (props) => {
       console.log('convertip fail', error)
     }
   }
-  
+
   const [show, setShow] = useState(false);
   return (
     <SafeAreaView style={styles.Conatiner}>
@@ -133,19 +133,28 @@ const Detail = (props) => {
               <Text style={styles.quantityText}>Đã chọn {number} sản phẩm</Text>
             </View>
             <View style={styles.quantityAction}>
-              <Text onPress={() => onNumberChange(false)} style={styles.removeAction}>-</Text>
-              <Text style={styles.quantity}>{number}</Text>
-              <Text onPress={() => onNumberChange(true)} style={styles.addAction}>+</Text>
+              <TouchableOpacity style={styles.btnAction} onPress={() => onNumberChange(false)}>
+                <Text style={{fontWeight:'900', fontSize:19}}>-</Text>
+              </TouchableOpacity>
+              <Text style={{fontWeight:'900', fontSize:19, marginHorizontal:15}}>{number}</Text>
+              <TouchableOpacity style={styles.btnAction} onPress={() => onNumberChange(true)}>
+                <Text style={{fontWeight:'900', fontSize:19}}>+</Text>
+              </TouchableOpacity>
             </View>
 
           </View>
-          <View style={styles.processTotal}>
+          <View style={{ marginTop: 15 }}>
             <Text style={styles.totalText}>Tạm tính</Text>
             <Text style={styles.total}>{numberWithComma(price * number)} đ</Text>
           </View>
+          {number>0 &&
           <TouchableOpacity style={styles.ButtonAddCart} onPress={addProductToCart}>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>Thêm vào giỏ hàng</Text>
-          </TouchableOpacity>
+            <Text style={{ fontSize: 18, fontWeight: "bold", color: '#FFF' }}>Thêm vào giỏ hàng</Text>
+          </TouchableOpacity> }
+          {number==0 &&
+          <TouchableOpacity style={{...styles.ButtonAddCart, backgroundColor: "#808080",}}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", color: '#FFF' }}>Thêm vào giỏ hàng</Text>
+          </TouchableOpacity> }
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -173,49 +182,33 @@ const styles = StyleSheet.create({
     color: 'black',
     opacity: 0.6
   },
-  processTotal: {
 
-  },
-  addAction: {
-    borderRadius: 5,
-    borderWidth: 0.5,
-    width: 27.5,
-    height: 27.5,
+  btnAction: {
+    borderRadius: 8,
+    borderWidth: 1,
+    width: 35,
+    height: 35,
     textAlign: 'center',
     lineHeight: 20.5,
     color: 'black',
     marginHorizontal: 3,
-  },
-  quantity: {
-    marginHorizontal: 3,
-  },
-  removeAction: {
-    borderRadius: 5,
-    borderWidth: 0.5,
-    width: 27.5,
-    height: 27.5,
-    textAlign: 'center',
-    lineHeight: 20.5,
-    color: 'black',
-    marginHorizontal: 3,
+    alignItems: 'center',
+    justifyContent: "center",
   },
   quantityAction: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 12
+    alignItems: "center",
   },
   quantityText: {
     fontSize: 14,
     opacity: 0.6
   },
-  processQuantity: {
 
-  },
   cartProcessContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 24,
-
+    alignItems: "center",
   },
   Description: {
     width: "100%",
@@ -272,7 +265,7 @@ const styles = StyleSheet.create({
   Image: {
     width: "100%",
     height: "100%",
-    borderRadius:16
+    borderRadius: 16
   },
   ImageProduct: {
     width: "70%",

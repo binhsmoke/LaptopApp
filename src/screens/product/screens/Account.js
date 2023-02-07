@@ -7,15 +7,23 @@ import * as ImagePicker from 'expo-image-picker';
 
 const Account = (props) => {
   const { navigation } = props;
-  const { user, onGetUser } = useContext(UserContext);
-  const { onLogout } = useContext(UserContext);
+  const { userID,onGetUser,onLogout } = useContext(UserContext);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    async function getUser() {
+      const res1 = await onGetUser(userID);
+      setUser(res1);
+    };
+    getUser();
+  }, [user]);
+
   const logout = async () => {
     const res = await onLogout();
     if (res == false) {
-      console.log('>>>>>>>>>Login failed');
-      ToastAndroid.show('Đăng nhập không thành công', ToastAndroid.BOTTOM);
+      ToastAndroid.show('Log out không thành công', ToastAndroid.BOTTOM);
     } else {
-      ToastAndroid.show("Hen gap lai", ToastAndroid.BOTTOM);
+      ToastAndroid.show("Tạm biệt", ToastAndroid.BOTTOM);
     }
   }
 
@@ -33,15 +41,6 @@ const Account = (props) => {
     }
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      // You can await here
-      const response = await onGetUser.getData;
-      // console.log('response in acc .js', response);
-    }
-    fetchData();
-  }, []);
-  const { name, phone, email, password, address, img } = user;
   return (
     <View style={styles.Container}>
       <View style={styles.TitleView}>
@@ -66,7 +65,7 @@ const Account = (props) => {
             </View>
             <View style={styles.TextView}>
               <Text style={styles.TextName}>{user.name}</Text>
-              <Text>{user.phone}</Text>
+              <Text>{user.email}</Text>
             </View>
           </View>
           <View style={styles.SupportView} >
@@ -78,16 +77,16 @@ const Account = (props) => {
               source={require("../../../assets/images/next.png")}
               ></Image>
           </View>
-          {/* <View style={styles.line}></View>
-          <View style={styles.SupportView}>
-          <TouchableOpacity onPress={() => navigation.navigate('DonHang')}>
-            <Text style={styles.SupportText}>Đơn hàng của tôi</Text>
+          <View style={styles.line}></View>
+          <View style={styles.SupportView} >
+            <TouchableOpacity onPress={() => navigation.navigate('EditPass')}>
+            <Text  style={styles.SupportText} >Đổi mật khẩu</Text>
             </TouchableOpacity>
             <Image
               style={styles.SupportImage}
               source={require("../../../assets/images/next.png")}
               ></Image>
-          </View> */}
+          </View>
           <View style={styles.line}></View>
           <View style={styles.SupportView}>
           <TouchableOpacity onPress={() => navigation.navigate('OrderStack')}>
@@ -150,12 +149,13 @@ const styles = StyleSheet.create({
   },
   TextName: {
     fontSize: 20,
-    fontWeight: "500",
+    fontWeight: "900",
     marginVertical: 8,
   },
   TextView: {
     alignItems: "center",
     width: "60%",
+    marginBottom:40
   },
   ImageView: {
     width: 80,
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   Account: {
     backgroundColor: "white",
     width: "100%",
-    height: "80%",
+    height: "85%",
     paddingHorizontal: 16,
   },
   AccountView: {

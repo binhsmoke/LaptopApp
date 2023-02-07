@@ -5,18 +5,16 @@ import {
   Image,
   TextInput,
   FlatList,
-  ScrollView,
   TouchableOpacity,
   Pressable,
+  Keyboard,
 } from "react-native";
-import React, { useState,useContext,useEffect } from "react";
-import FilterModal from "./FilterModal";
+import React, { useState, useContext, useEffect } from "react";
 import { ProductContext } from '../ProductContext';
 import { Searchbar } from 'react-native-paper';
 const List = (props) => {
   const { navigation } = props;
-  // const [showFilterModal, setShowFilterModal]= React.useState(false);
-  const {products,onGetProducts}=useContext(ProductContext);
+  const { products, onGetProducts } = useContext(ProductContext);
 
   useEffect(() => {
     async function fetchData() {
@@ -28,20 +26,19 @@ const List = (props) => {
   }, []);
   const renderItem = ({ item }) => {
     const { _id, image, name, price } = item;
-    // console.log(item)
     return (
-      <Pressable style={styles.containerView} onPress={() => navigation.navigate('Detail',{_id:_id})}  key={_id}>
+      <Pressable style={styles.containerView} onPress={() => navigation.navigate('Detail', { _id: _id })} key={_id}>
         <View style={styles.ContainerItem}>
           <View style={styles.Product}>
             <View style={styles.ContainerImageItem}>
               <Image
                 style={styles.imageItem}
                 resizeMode="cover"
-                source={{uri:image}}
+                source={{ uri: image }}
               ></Image>
             </View>
             <View style={styles.textItem}>
-          
+
               <Text style={styles.descriptionProduct}>{name}</Text>
               <Text style={styles.priceproduct}>{price} $</Text>
             </View>
@@ -50,40 +47,33 @@ const List = (props) => {
       </Pressable>
     );
   };
-  const handleSearch=(text)=>{
-    console.log("text",text)
-    setState({query:text});
-  };
+
   const [input, setInput] = useState("");
   return (
-    <View style={styles.Conatiner}>
+    <View style={styles.Conatiner} onPress={()=>Keyboard.dismiss()}>
       <View style={styles.TitleView}>
         <View style={styles.Title}>
           <Image source={require("../../../assets/images/back.png")}></Image>
           <Text style={styles.TitleText}>         DANH SÁCH</Text>
           <Image source={require("../../../assets/images/bacham.png")}></Image>
         </View>
-          </View>
-          <Searchbar style={styles.TextSearch}
-				placeholder="Search"
-				value={input}
-			/>
-      {/* <FilterModal 
-      onVisible={showFilterModal}
-      onClose={()=>setShowFilterModal(false)}
-      /> */}
-     {
-      products.lengt==0?
-      <Text style={styles.loading}>Đang tải dữ liệu, bạn đợi tí nhé</Text>:
-      <FlatList
-        style={styles.flatList}
-        data={products}
-        numColumns={2}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item=>item._id}
-      ></FlatList>
-     } 
+      </View>
+      <TextInput style={styles.TextSearch}
+        placeholder="Tìm kiếm sản phẩm"
+        onChangeText={setInput}/>
+
+      {
+        products.lengt == 0 ?
+          <Text style={styles.loading}>Đang tải dữ liệu, bạn đợi tí nhé</Text> :
+          <FlatList
+            style={styles.flatList}
+            data={products.filter(item=>item.name.toLowerCase().includes(input.toLowerCase()))}
+            numColumns={2}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={item => item._id}
+          ></FlatList>
+      }
     </View>
   );
 };
@@ -136,9 +126,11 @@ const styles = StyleSheet.create({
     width: "90%",
     paddingHorizontal: 16,
     fontSize: 16,
-    fontWeight: "400",
-    alignSelf:'center',
+    fontWeight: "900",
+    alignSelf: 'center',
     marginVertical: 16,
+    backgroundColor: "#fff",
+    height: 60
   },
   Search: {
     flexDirection: "row",

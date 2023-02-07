@@ -5,7 +5,6 @@ const Stack = createNativeStackNavigator();
 
 import List from "./List";
 import Detail from "./Detail";
-import FilterModal from './FilterModal';
 const ProductsStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

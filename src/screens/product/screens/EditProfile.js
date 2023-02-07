@@ -1,13 +1,46 @@
-import { StyleSheet, Text, View, Image, TextInput , TouchableOpacity} from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity,ToastAndroid, Keyboard } from "react-native";
+import React, { useState,useContext } from "react";
+import { UserContext } from "../../user/UserContext";
+const EditProfile = (props) => {
+  const {navigation} = props;
+  const { onChangeName, userID } = useContext(UserContext);
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [address, setAddress] = useState('')
 
-const EditProfile = () => {
+  const changeFullName = async () => {
+    if (!name || name.trim().length == 0) {
+      ToastAndroid.show('Không được bỏ trống', ToastAndroid.BOTTOM);
+      return;
+    }
+    if (!phone || phone.trim().length == 0) {
+      ToastAndroid.show('Không được bỏ trống', ToastAndroid.BOTTOM);
+      return;
+    }
+    if (!email || email.trim().length == 0) {
+      ToastAndroid.show('Không được bỏ trống', ToastAndroid.BOTTOM);
+      return;
+    }
+    if (!address || address.trim().length == 0) {
+      ToastAndroid.show('Không được bỏ trống', ToastAndroid.BOTTOM);
+      return;
+    }
+    const res = await onChangeName(userID, name, phone, address, email);
+    if (res) {
+      ToastAndroid.show(res.message, ToastAndroid.BOTTOM);
+      navigation.goBack();
+    } else {
+      ToastAndroid.show('Đổi tên người dùng thất bại', ToastAndroid.BOTTOM);
+    }
+  }
+
   return (
     <View style={styles.Container}>
       <View style={styles.TitleView}>
         <View style={styles.Title}>
           <Image source={require("../../../assets/images/back.png")}></Image>
-          <Text style={styles.TitleText}>Edit Profile</Text>
+          <Text style={styles.TitleText}>Cập nhật thông tin</Text>
           <Image source={require("../../../assets/images/bacham.png")}></Image>
         </View>
       </View>
@@ -17,6 +50,7 @@ const EditProfile = () => {
             style={styles.TextInput}
             placeholderTextColor={"#9098B1"}
             placeholder="Name"
+            onChangeText={setName}
           ></TextInput>
         </View>
         <View style={styles.TextInputView}>
@@ -24,6 +58,7 @@ const EditProfile = () => {
             style={styles.TextInput}
             placeholderTextColor={"#9098B1"}
             placeholder="Phone Number"
+            onChangeText={setPhone}
           ></TextInput>
         </View>
         <View style={styles.TextInputView}>
@@ -31,6 +66,7 @@ const EditProfile = () => {
             style={styles.TextInput}
             placeholderTextColor={"#9098B1"}
             placeholder="Address"
+            onChangeText={setAddress}
           ></TextInput>
         </View>
         <View style={styles.TextInputView}>
@@ -38,42 +74,40 @@ const EditProfile = () => {
             style={styles.TextInput}
             placeholderTextColor={"#9098B1"}
             placeholder="Email"
+            onChangeText={setEmail}
           ></TextInput>
         </View>
-
-        <TouchableOpacity style={styles.ButtonUpdate}>
-        <Text style={styles.TextUpdate}>Update</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.ButtonUpdate} onPress = {()=>changeFullName()}>
+          <Text style={styles.TextUpdate}>Đồng ý</Text>
+        </TouchableOpacity>
       </View>
-
-      
     </View>
   );
 };
 
 export default EditProfile;
 const styles = StyleSheet.create({
-    TextUpdate:{
-        fontSize: 16,
-        fontWeight: "700",
-        color: "white",
-    },
-    ButtonUpdate:{
-        backgroundColor: "#FE5045",
-        width: "100%",
-        height: 50,
-        borderRadius: 16,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop:32,
-    },
+  TextUpdate: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "white",
+  },
+  ButtonUpdate: {
+    backgroundColor: "#FE5045",
+    width: "100%",
+    height: 50,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 32,
+  },
   TextInput: {
     marginHorizontal: 16,
   },
   TextInputView: {
     width: "100%",
     height: 50,
-    borderWidth:1,
+    borderWidth: 1,
     borderRadius: 8,
     borderColors: "#B5B5B5",
     justifyContent: "center",

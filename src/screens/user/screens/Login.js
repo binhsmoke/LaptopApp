@@ -13,7 +13,7 @@ import { UserContext } from '../../user/UserContext';
 
 const Login = (props) => {
   const { navigation } = props;
-  const { onLogin, onGetUserById } = useContext(UserContext);
+  const { onLogin } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 

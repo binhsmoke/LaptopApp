@@ -1,6 +1,8 @@
 import React, { useState, createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { login, register, getUserById, getUser, checkOut, getAllOrders, getPendingOrders,getShippingOrders, getOneOrder, receiveOrder, cancelOrder, getSuccessOrders, getCancelOrders } from './UserService'
+import { login, register,  getUser, checkOut,
+   getAllOrders, getPendingOrders,getShippingOrders, getOneOrder, receiveOrder, cancelOrder, getSuccessOrders, getCancelOrders, 
+   changeName,changePass } from './UserService'
 import constants from "../../utils/constants";
 
 export const UserContext = createContext();
@@ -8,7 +10,6 @@ export const UserContext = createContext();
 export const UserContextProvider = (props) => {
   const { children } = props;
   const [isLogin, setIsLogin] = useState(false);
-  const [user, setUser] = useState({});
   const [userID, setUserID] = useState("");
   const onLogin = async (username, password) => {
     try {
@@ -39,30 +40,22 @@ export const UserContextProvider = (props) => {
   const onLogout = async () => {
     setIsLogin(false);
   }
-
-  const onGetUser = async () => {
+  const onGetUser = async (id) => {
     try {
-      const res = await getUser();
-      if (res) setUser(res);
+      const res = await getUser(id);
+      return res;
     } catch (error) {
-      console.log("onGetUser", error);
+      console.log("onGetUser error: ", error);
     }
-  }
+    return false;
+  };
 
-  const onGetUserById = async (id) => {
-    try {
-      const result = await getUserById(id);
-      setUser(result);
-    } catch (error) {
-      console.log('that bai', error);
-    }
-  }
   const onCheckOut = async (id, body) => {
     try {
       const res = await checkOut(id, body);
       return res;
     } catch (error) {
-      console.log("onGetCart error: ", error);
+      console.log("onCheckOut error: ", error);
     }
     return false;
   }
@@ -72,7 +65,7 @@ export const UserContextProvider = (props) => {
       const res = await getAllOrders(id);
       return res;
     } catch (error) {
-      console.log("onGetCart error: ", error);
+      console.log("onGetAllOrders error: ", error);
     }
     return false;
   }
@@ -82,7 +75,7 @@ export const UserContextProvider = (props) => {
       const res = await getPendingOrders(id);
       return res;
     } catch (error) {
-      console.log("onGetCart error: ", error);
+      console.log("onGetPendingOrders error: ", error);
     }
     return false;
   }
@@ -92,7 +85,7 @@ export const UserContextProvider = (props) => {
         const res = await getShippingOrders(id);
         return res;
       } catch (error) {
-        console.log("onGetCart error: ", error);
+        console.log("onGetShippingOrders error: ", error);
       }
       return false;
   }
@@ -102,7 +95,7 @@ export const UserContextProvider = (props) => {
         const res = await getOneOrder(id, ido);
         return res;
       } catch (error) {
-        console.log("onGetCart error: ", error);
+        console.log("onGetOneOrder error: ", error);
       }
       return false;
   }
@@ -111,7 +104,7 @@ export const UserContextProvider = (props) => {
         const res = await cancelOrder(id, ido);
         return res;
       } catch (error) {
-        console.log("onGetCart error: ", error);
+        console.log("onCancelOrder error: ", error);
       }
       return false;
   }
@@ -120,7 +113,7 @@ export const UserContextProvider = (props) => {
         const res = await receiveOrder(id, ido);
         return res;
       } catch (error) {
-        console.log("onGetCart error: ", error);
+        console.log("onReceiveOrder error: ", error);
       }
       return false;
   }
@@ -130,7 +123,7 @@ export const UserContextProvider = (props) => {
         const res = await getSuccessOrders(id);
         return res;
       } catch (error) {
-        console.log("onGetCart error: ", error);
+        console.log("onGetSuccessOrders error: ", error);
       }
       return false;
   }
@@ -140,17 +133,39 @@ export const UserContextProvider = (props) => {
         const res = await getCancelOrders(id);
         return res;
       } catch (error) {
-        console.log("onGetCart error: ", error);
+        console.log("onGetCancelOrders error: ", error);
       }
       return false;
   }
+  const onChangeName = async (id, name, phone, address, email) => {
+    try {
+      const res = await changeName(id, name, phone, address, email);
+      return res;
+    } catch (error) {
+      console.log("onChangeName error: ", error);
+    }
+    return false;
+  };
+
+  const onChangePass = async (id, oldPass, newPass) => {
+    try {
+      const res = await changePass(id, oldPass, newPass);
+      console.log("res context: ", res);
+      return res;
+    } catch (error) {
+      console.log("onChangePass error: ", error);
+    }
+    return false;
+  };
+
 
   return (
     <UserContext.Provider
       value={{
-        onLogin, onRegister, onLogout, onGetUser, onGetUserById, isLogin, user, 
+        onLogin, onRegister, onLogout, onGetUser,  isLogin,
         userID, onCheckOut, onGetAllOrders, onGetPendingOrders,onGetShippingOrders,
-        onGetOneOrder,onCancelOrder,onReceiveOrder,onGetSuccessOrders,onGetCancelOrders
+        onGetOneOrder,onCancelOrder,onReceiveOrder,onGetSuccessOrders,onGetCancelOrders,
+        onChangeName,onChangePass
       }}
     >
       {children}

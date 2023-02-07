@@ -70,22 +70,28 @@ const CheckOutModal = (props) => {
       <View style={styles.modalContainer}>
         <View style={styles.modalView}>
           <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Xác nhận thanh toán</Text>
+          <View style={{marginVertical:15}}>
           <Text style={{ fontStyle: 'italic' }}>Tổng tiền: <Text style={{ fontWeight: 'bold', fontSize: 18 }}> {numberWithComma(total)} </Text></Text>
+          </View>
+          <View style={{height:100, width:200}}>
           <SelectList
             setSelected={(val) => setSelected(val)}
             data={data}
             save="key"
             search={false}
             dropdownShown={false}
-            defaultOption={{ key: '0', value: 'Chọn phương thức thanh toán' }}
+            defaultOption={{ key: '0', value: 'Phương thức thanh toán' }}
             onSelect={() => console.log(selected)}
-          />
+            />
+            </View>
+          <View style={styles.btnPair}>
           <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckOut} >
             <Text style={styles.checkoutText}>Đồng ý</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{...styles.checkoutButton, backgroundColor:'#FFF', borderColor: '#FE5045', borderWidth:2}} onPress={() => setIsShowModal(false)}>
           <Text  style={{...styles.checkoutText, color:'#FE5045'}}>Hủy bỏ</Text>
           </TouchableOpacity>
+          </View>
         </View>
       </View>
 
@@ -101,14 +107,19 @@ const DeleteModal = (props) => {
       visible={isShowDeleteModal}
     >
       <View style={styles.modalContainer}>
-        <View style={styles.modalView}>
-          <Text>Xác nhận xóa món hàng</Text>
-          <TouchableOpacity style={styles.deleteButton} onPress={resetCart}>
-            <Text style={styles.deleteText}>Đồng ý</Text>
+        <View style={{...styles.modalView, height: '25%'}}>
+        <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Xóa giỏ hàng hiện tại</Text>
+          <View style={{marginVertical:15}}/>
+          <View style={{height:100, width:200}}>
+            </View>
+          <View style={styles.btnPair}>
+          <TouchableOpacity style={styles.checkoutButton} onPress={resetCart} >
+            <Text style={styles.checkoutText}>Đồng ý</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.deleteButton} onPress={() => setIsShowDeleteModal(false)}>
-          <Text  style={styles.cancel}>Hủy bỏ</Text>
+          <TouchableOpacity style={{...styles.checkoutButton, backgroundColor:'#FFF', borderColor: '#FE5045', borderWidth:2}} onPress={() => setIsShowDeleteModal(false)}>
+          <Text  style={{...styles.checkoutText, color:'#FE5045'}}>Hủy bỏ</Text>
           </TouchableOpacity>
+          </View>
         </View>
       </View>
 
@@ -260,10 +271,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0,0.5)',
+    backgroundColor: 'rgba(0, 0, 0,.7)',
   },
   modalView: {
-    justifyContent: 'space-between',
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 8,
@@ -278,16 +288,21 @@ const styles = StyleSheet.create({
     elevation: 5,
     alignItems: 'center',
     width: '90%',
-    height: 500,
+    height: 360,
+  },
+  btnPair:{
+    justifyContent:'space-between',
+    flexDirection: "row",
+    position: "absolute",
+    bottom:15
   },
   checkoutButton: {
     backgroundColor: '#FE5045',
-    margin: 10,
-    height: 50,
+    height: 40,
     borderRadius: 4,
-    width: '100%',
+    width: '45%',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   checkoutText: {
     color: 'white',
@@ -454,4 +469,5 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+
 });

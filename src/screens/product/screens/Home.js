@@ -10,7 +10,8 @@ import {
   Pressable,
   SafeAreaView,
   RefreshControl,
-  StatusBar
+  StatusBar,
+  Dimensions
 } from "react-native";
 import { IP } from "../../../utils/constants";
 import React, { useState, useContext, useEffect } from "react";
@@ -28,27 +29,35 @@ const Home = (props) => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(1000).then(() => {
-    setRefreshing(false)
-    setProductsLoaded(false)
-  })
+      setRefreshing(false)
+      setProductsLoaded(false)
+    })
   }, []);
 
   //format number
   const numberWithComma = x => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    try {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //get img local
   function convertIP(image) {
-    image = image.replace("localhost", IP);
-    return image;
+    try {
+      image = image.replace("localhost", IP);
+      return image;
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   //first time load data
   useEffect(() => {
     async function fetchData() {
       const response = await onGetProducts(sort);
-        setProductsLoaded(true)      
+      setProductsLoaded(true)
     }
     fetchData();
   }, [productsLoaded]);
@@ -63,10 +72,10 @@ const Home = (props) => {
     }
   }
 
-  const header = ()=>{
+  const header = () => {
     return (
       <>
-          <View style={styles.ContainerTitle}>
+        <View style={styles.ContainerTitle}>
           <View style={styles.Title}>
             <Text style={styles.TitleText}>LapTop Shop</Text>
             <Image
@@ -125,7 +134,7 @@ const Home = (props) => {
         <TouchableOpacity
           style={styles.button}
           onPress={handleSort}>
-          <Text style={{fontWeight : "600", fontSize:16, marginVertical:8, color:'#F8774A'}}>{sort == 'asc' ? 'Giảm dần' : 'Tăng dần'}</Text>
+          <Text style={{ fontWeight: "600", fontSize: 16, marginVertical: 8, color: '#F8774A' }}>{sort == 'asc' ? 'Giảm dần' : 'Tăng dần'}</Text>
         </TouchableOpacity>
       </>
     )
@@ -136,26 +145,26 @@ const Home = (props) => {
     // let nPrice=new Intl.NumberFormat('en-CA',{style:'decimal'}).format(price);
     return (
       <>
-      <Pressable
-        style={styles.containerView}
-        onPress={() => navigation.navigate("Detail", { _id: _id })}
-      >
-        <View style={styles.ContainerItem}>
-          <View style={styles.Product}>
-            <View style={styles.ContainerImageItem}>
-              <Image
-                style={styles.imageItem}
-                resizeMode={"cover"}
-                source={{ uri: convertIP(image) }}
-              />
-            </View>
-            <View style={styles.textItem}>
-              <Text style={styles.descriptionProduct} numberOfLines={2}>{name}</Text>
-              <Text style={styles.priceproduct}>{numberWithComma(price)} đ</Text>
+        <Pressable
+          style={styles.containerView}
+          onPress={() => navigation.navigate("Detail", { _id: _id })}
+        >
+          <View style={styles.ContainerItem}>
+            <View style={styles.Product}>
+              <View style={styles.ContainerImageItem}>
+                <Image
+                  style={styles.imageItem}
+                  resizeMode={"cover"}
+                  source={{ uri: convertIP(image) }}
+                />
+              </View>
+              <View style={styles.textItem}>
+                <Text style={styles.descriptionProduct} numberOfLines={2}>{name}</Text>
+                <Text style={styles.priceproduct}>{numberWithComma(price)} đ</Text>
+              </View>
             </View>
           </View>
-        </View>
-      </Pressable>
+        </Pressable>
       </>
     );
   };
@@ -186,12 +195,12 @@ export default Home;
 
 const styles = StyleSheet.create({
   button: {
-    alignSelf:"flex-end",
-    backgroundColor:'#fff',
+    alignSelf: "flex-end",
+    backgroundColor: '#fff',
     width: 100,
-    alignItems:'center',
-    borderRadius:10,
-    marginVertical:6,
+    alignItems: 'center',
+    borderRadius: 10,
+    marginVertical: 6,
   },
   priceproduct: {
     color: "red",
@@ -207,7 +216,6 @@ const styles = StyleSheet.create({
   textItem: {
     paddingHorizontal: 8,
     width: "100%",
-    marginBottom: 15,
   },
   imageItem: {
     width: "90%",
@@ -217,13 +225,14 @@ const styles = StyleSheet.create({
   ContainerImageItem: {
     marginTop: 8,
     width: "100%",
-    height: 160,
+    height: 150,
     alignItems: "center",
   },
   Product: {
     width: "100%",
-    marginTop: 20,
-    backgroundColor: "white",
+    marginTop:20,
+    height:Dimensions.get('screen').height*0.3,
+    backgroundColor: "#fff",
     borderRadius: 16,
   },
   ContainerItem: {

@@ -141,7 +141,7 @@ const OrderDetail = (props) => {
                 showsVerticalScrollIndicator={false}
                 data={list}
                 renderItem={OrderItem}
-                keyExtractor={(item) => item._id}
+                keyExtractor={(item,index) => index.toString()}
                 />
                 </View>
                 </View>

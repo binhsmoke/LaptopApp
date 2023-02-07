@@ -24,21 +24,10 @@ export const register = async (username, password, confirmPassword, name, email,
     return res;
 }
 
-export const getUser = async (name, email) => {
-    const data = {
-
-        name: name,
-        email: email,
-
-    }
-    const res = await axiosInstance.get(constants.API_LOGIN, data);
-    return res;
-}
-export const getUserById = async (id) => {
-    const response = await axiosInstance.get(`${constants.API_USER}/${id}/detail`);
+export const getUser = async (id) => {
+    const response = await axiosInstance.get(`${constants.API_USER}/${id}`);
     return response;
 }
-
 
 export const checkOut = async (id, data) => {
     const response = await axiosInstance.post(`${constants.API_USER}/${id}/cart/checkout`, data);
@@ -83,4 +72,30 @@ export const getCancelOrders = async (id) => {
     return response;
 }
 
+
+export const getUserId = async (id) => {
+    const response = await axiosInstance.get(`${constants.API_USER}/${id}`);
+    return response;
+}
+
+
+export const changeName = async (id, name, phone, address, email) => {
+    const data = {
+        name: name, 
+        phone:phone, 
+        address:address, 
+        email:email
+    }
+    const response = await axiosInstance.post(`${constants.API_USER}/${id}/changeName`, data);
+    return response;
+}
+
+export const changePass = async (id, oldPass, newPass) => {
+    const data = {
+        password: oldPass,
+        newPassword: newPass,
+    }
+    const response = await axiosInstance.post(`${constants.API_USER}/${id}/changePass`, data);
+    return response;
+}
 
