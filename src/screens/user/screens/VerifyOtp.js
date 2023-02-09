@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { verifyOtp } from '../UserService'
 
@@ -10,7 +10,7 @@ const VerifyOtp = ({ route, navigation }) => {
 
     const onVerifyOtp = async () => {
         if (otp.trim() === '' || password.trim() === '') {
-            alert('Vui lòng nhập đầy đủ thông tin')
+            ToastAndroid.show('Vui lòng nhập đầy đủ thông tin',1000)
             return
         }
         const res = await verifyOtp({
@@ -23,9 +23,9 @@ const VerifyOtp = ({ route, navigation }) => {
             alert('Lỗi mạng')
         } else {
             if (res.result_code == 0) {
-                alert('Mã otp không chính xác')
+                ToastAndroid.show('Mã otp không chính xác',1000)
             } else {
-                alert('Đổi mật khẩu thành công')
+                ToastAndroid.show('Đổi mật khẩu thành công',1000)
                 navigation.replace('Login')
             }
         }

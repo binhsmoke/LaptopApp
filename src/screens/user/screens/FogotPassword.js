@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { sendEmailForgotPassword } from '../UserService'
 
@@ -7,12 +7,12 @@ const FogotPassword = ({ navigation }) => {
 
     const onSendEmailForgotPassword = async () => {
         if (email.trim() === '') {
-            alert('Vui lòng nhập email')
+            ToastAndroid.show('Vui lòng nhập email',10000)
             return
         }
         const res = await sendEmailForgotPassword(email)
         if (res.error == false && res.status == 200) {
-            alert('Kiểm tra email của bạn')
+            ToastAndroid.show('Thành công - Hãy kiểm tra email của bạn',1000)
             navigation.replace('VerifyOtp', { email })
         } else {
             alert(res.message)

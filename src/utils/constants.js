@@ -1,7 +1,7 @@
 export default CONSTANTS = {
     STORAGE_KEY: 'MY_STORAGE_KEY',
     // HOSTING: 'http://192.168.43.229:3001',
-    HOSTING: 'http://192.168.1.119:3001',
+    HOSTING: 'http://192.168.250.248:3001',
     API_LOGIN: `/api/customer/login`,
     API_REGISTER: `/api/customer/register`,
     API_PRODUCTS_BY: `/api/products`,
@@ -9,4 +9,4 @@ export default CONSTANTS = {
     API_USER: `/api/customers`,
 }
 // export const IP = '192.168.43.229';
-export const IP = '192.168.1.119';
+export const IP = '192.168.250.248';
